@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#071526">
+<title>Sam's Fitness Journal Pro V15.1</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="fatal" class="fatal hidden"></div>
+<header class="appHeader">
+  <div><h1>Sam's Fitness</h1><p>Pro V15.1 · Anatomy edition</p></div>
+  <div class="avatar">SF</div>
+</header>
+
+<main id="app">
+  <section class="screen active" id="screen-today">
+    <div class="hero">
+      <div><span class="eyebrow">TODAY</span><h2 id="todayDate"></h2><p id="todayMessage">Ready when you are.</p></div>
+      <div class="scoreRing"><b id="todayScore">0%</b><span>complete</span></div>
+    </div>
+    <div class="macroGrid" id="todayMacros"></div>
+    <div class="card">
+      <div class="sectionTitle"><h3>Today's workout</h3><button class="linkBtn" data-nav="workout">Open</button></div>
+      <div id="todayWorkout"></div>
+    </div>
+    <div class="card">
+      <div class="sectionTitle"><h3>Daily checks</h3></div>
+      <label class="checkRow"><input type="checkbox" data-check="water"> <span>Water target</span></label>
+      <label class="checkRow"><input type="checkbox" data-check="steps"> <span>Movement / steps</span></label>
+      <label class="checkRow"><input type="checkbox" data-check="sleep"> <span>Sleep target</span></label>
+    </div>
+  </section>
+
+  <section class="screen" id="screen-workout">
+    <div class="workoutHeader card">
+      <div class="row between">
+        <div><span class="eyebrow">WORKOUT</span><h2 id="workoutTitle">Workout</h2></div>
+        <div class="timeBox"><span>TIME</span><b id="workoutClock">00:00</b></div>
+      </div>
+      <div class="progress"><i id="workoutProgress"></i></div>
+      <div class="summaryGrid">
+        <div><span>EXERCISES</span><b id="exerciseSummary">0 / 0</b></div>
+        <div><span>SETS</span><b id="setSummary">0</b></div>
+        <div><span>VOLUME</span><b id="volumeSummary">0 kg</b></div>
+        <div><span>REST</span><b id="restSummary">—</b></div>
+      </div>
+      <div class="twoCols">
+        <button class="primary" id="startWorkout">Start workout</button>
+        <select id="planSelect" aria-label="Select workout"></select>
+      </div>
+    </div>
+    <div id="workoutList"></div>
+    <button class="success full" id="finishWorkout">Finish and save workout</button>
+  </section>
+
+  <section class="screen" id="screen-meals">
+    <div class="screenHead"><div><span class="eyebrow">NUTRITION</span><h2>Meals</h2></div><input id="mealDate" type="date"></div>
+    <div class="macroGrid" id="mealMacros"></div>
+    <div class="card searchCard">
+      <input id="foodSearch" type="search" placeholder="Search 768 foods, brands or Egyptian meals">
+      <div class="twoCols">
+        <select id="mealSelect"><option>Breakfast</option><option>Lunch</option><option>Dinner</option><option>Snacks</option></select>
+        <button id="barcodeButton">Barcode</button>
+      </div>
+      <div id="foodResults" class="foodResults"></div>
+    </div>
+    <div id="mealSections"></div>
+  </section>
+
+  <section class="screen" id="screen-progress">
+    <div class="screenHead"><div><span class="eyebrow">PROGRESS</span><h2>Health & training</h2></div></div>
+    <div class="card">
+      <h3>Log measurements</h3>
+      <div class="formGrid">
+        <label>Date<input id="healthDate" type="date"></label>
+        <label>Weight (kg)<input id="healthWeight" type="number" step="0.1"></label>
+        <label>Waist (cm)<input id="healthWaist" type="number" step="0.1"></label>
+        <label>Steps<input id="healthSteps" type="number"></label>
+      </div>
+      <button class="primary full" id="saveHealth">Save measurements</button>
+    </div>
+    <div class="card">
+      <h3>Weight trend</h3>
+      <canvas id="weightChart" width="760" height="260"></canvas>
+      <div id="healthHistory"></div>
+    </div>
+    <div class="card">
+      <h3>Workout history</h3>
+      <div id="sessionHistory"></div>
+    </div>
+  </section>
+
+  <section class="screen" id="screen-more">
+    <div class="screenHead"><div><span class="eyebrow">SETTINGS</span><h2>More</h2></div></div>
+    <div class="card">
+      <h3>Daily targets</h3>
+      <div class="formGrid">
+        <label>Calories<input id="goalCalories" type="number"></label>
+        <label>Protein (g)<input id="goalProtein" type="number"></label>
+        <label>Carbs (g)<input id="goalCarbs" type="number"></label>
+        <label>Fat (g)<input id="goalFat" type="number"></label>
+        <label>Fibre (g)<input id="goalFibre" type="number"></label>
+      </div>
+      <button class="primary full" id="saveGoals">Save targets</button>
+    </div>
+    <div class="card">
+      <h3>Data</h3>
+      <div class="stack">
+        <button id="exportData">Export backup</button>
+        <label class="buttonLike">Import backup<input id="importData" type="file" accept="application/json" hidden></label>
+        <button class="danger" id="resetData">Reset all app data</button>
+      </div>
+      <p class="muted">All personal data stays in this browser unless you export it.</p>
+    </div>
+    <div class="card">
+      <h3>App diagnostics</h3>
+      <div id="diagnostics" class="diagnostics"></div>
+    </div>
+  </section>
+</main>
+
+<nav class="bottomNav">
+  <button class="active" data-nav="today"><span>◉</span>Today</button>
+  <button data-nav="workout"><span>🏋️</span>Workout</button>
+  <button data-nav="meals"><span>🍽️</span>Meals</button>
+  <button data-nav="progress"><span>▥</span>Progress</button>
+  <button data-nav="more"><span>•••</span>More</button>
+</nav>
+
+<div class="modalWrap hidden" id="exerciseModal">
+  <div class="modal">
+    <div class="modalHead"><button id="closeExercise">‹</button><h3 id="exerciseName"></h3><button id="favoriteExercise">☆</button></div>
+    <div class="tabs"><button class="active" data-tab="overview">Overview</button><button data-tab="muscles">Muscles</button><button data-tab="notes">Notes</button></div>
+    <div id="tab-overview"></div><div id="tab-muscles" class="hidden"></div><div id="tab-notes" class="hidden"></div>
+  </div>
+</div>
+
+<div class="modalWrap hidden" id="foodModal">
+  <div class="modal smallModal">
+    <div class="modalHead"><button id="closeFood">‹</button><h3 id="foodName"></h3><span></span></div>
+    <div id="foodDetail"></div>
+  </div>
+</div>
+
+<div class="modalWrap hidden" id="barcodeModal">
+  <div class="modal smallModal">
+    <div class="modalHead"><button id="closeBarcode">‹</button><h3>Barcode lookup</h3><span></span></div>
+    <p class="muted">Enter a barcode, or use camera scanning on supported browsers.</p>
+    <input id="barcodeInput" inputmode="numeric" placeholder="Enter barcode">
+    <button class="primary full" id="lookupBarcode">Look up</button>
+    <button class="full" id="scanBarcode">Use camera scanner</button>
+    <video id="barcodeVideo" class="hidden" playsinline></video>
+    <div id="barcodeStatus"></div>
+  </div>
+</div>
+
+<div class="restDock hidden" id="restDock"><b id="restClock">Rest 00:00</b><button id="restMinus">−15</button><button id="restPlus">+15</button><button id="restStop">Stop</button></div>
+<div class="toast hidden" id="toast"></div>
+
+<script src="app-data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
